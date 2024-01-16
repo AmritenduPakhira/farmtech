@@ -1,0 +1,27 @@
+/* About.css */
+.about-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 40px; /* Add padding for content */
+    border-radius: 10px; /* Optional: Add border radius for a softer look */
+  }
+  
+  .about-section {
+    display: flex;
+  }
+  
+  .circle-photo img {
+    width: 30vw; /* Adjust the width to your preferred size */
+    height: auto; /* Maintain aspect ratio */
+  }
+  
+  .about-content {
+    max-width: 600px; /* Limit width for better readability */
+  }
+  
+  .about-heading {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  

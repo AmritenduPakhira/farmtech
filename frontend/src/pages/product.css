@@ -1,0 +1,61 @@
+/* ProductList.css */
+.product-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Adjust as needed */
+  }
+  
+  .product-item {
+    width: 23%; /* Adjust as needed */
+    margin-bottom: 20px; /* Adjust as needed */
+    border: 2px solid #008000; /* Green border */
+    border-radius: 10px; /* Border radius for rounded corners */
+    overflow: hidden; /* Hide overflow to make border radius work with images */
+    box-shadow: 0 0 10px rgba(0, 128, 0, 0.5); /* Green box shadow */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center content horizontally */
+    transition: border-width 0.3s ease-in-out; /* Smooth transition for border width change */
+  }
+  
+  .product-item:hover {
+    border-width: 4px; /* Increase border width on hover */
+  }
+  
+  .product-item img {
+    width: 100%; /* Make the image fill the container */
+    height: auto; /* Maintain the aspect ratio */
+    border-bottom-left-radius: 0; /* Adjust as needed */
+    border-bottom-right-radius: 0; /* Adjust as needed */
+    margin: 3px;
+  }
+  
+  .product-item h3 {
+    text-align: center; /* Center the product name */
+    color: #008000; /* Green color for product name */
+  }
+  
+  .product-item p {
+    text-align: center; /* Center the description and price */
+    margin: 5px 0;
+  }
+  
+  h1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 20px; /* Add some padding to the right side of the heading */
+  }
+  
+  h1 input {
+    border: 1px solid #008000; /* Decrease border size for the search box */
+    border-radius: 5px; /* Border radius for the search box */
+    margin-left: 10px; /* Add some space between the heading and the search box */
+    padding: 5px; /* Adjust padding as needed */
+  }
+  
+  h1 {
+    text-align: center; /* Center the heading */
+    color: #008000; /* Green color for heading */
+  }
+  
