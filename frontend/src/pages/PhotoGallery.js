@@ -26,33 +26,32 @@ import farmPhoto24 from '../images/farmPhoto24.jpg';
 import './PhotoGallery.css';  
 
 const farmPhotos = [
-  { src: farmPhoto1, name: 'Photo 1' },
-  { src: farmPhoto2, name: 'Photo 2' },
-  { src: farmPhoto3, name: 'Photo 3' },
-  { src: farmPhoto4, name: 'Photo 4' },
-  { src: farmPhoto5, name: 'Photo 5' },
-  { src: farmPhoto6, name: 'Photo 6' },
-  { src: farmPhoto7, name: 'Photo 7' },
-  { src: farmPhoto8, name: 'Photo 8' },
-  { src: farmPhoto9, name: 'Photo 9' },
-  { src: farmPhoto10, name: 'Photo 10' },
-  { src: farmPhoto11, name: 'Photo 11' },
-  { src: farmPhoto12, name: 'Photo 12' },
-  { src: farmPhoto13, name: 'Photo 13' },
-  { src: farmPhoto14, name: 'Photo 14' },
-  { src: farmPhoto15, name: 'Photo 15' },
-  { src: farmPhoto16, name: 'Photo 16' },
-  { src: farmPhoto17, name: 'Photo 17' },
-  { src: farmPhoto18, name: 'Photo 18' },
-  { src: farmPhoto19, name: 'Photo 19' },
-  { src: farmPhoto20, name: 'Photo 20' },
-  { src: farmPhoto21, name: 'Photo 21' },
-  { src: farmPhoto22, name: 'Photo 22' },
-  { src: farmPhoto23, name: 'Photo 23' },
-  { src: farmPhoto24, name: 'Photo 24' },
-
-
+  { src: farmPhoto1, name: 'Farmer with Crops' },
+  { src: farmPhoto2, name: 'Harvesting Wheat' },
+  { src: farmPhoto3, name: 'Sunset Over the Fields' },
+  { src: farmPhoto4, name: 'Tractor Plowing Field' },
+  { src: farmPhoto5, name: 'Barn and Silo' },
+  { src: farmPhoto6, name: 'Golden Fields of Wheat' },
+  { src: farmPhoto7, name: 'Farmers Market Stall' },
+  { src: farmPhoto8, name: 'Green Pastures' },
+  { src: farmPhoto9, name: 'Farmhouse in the Morning' },
+  { src: farmPhoto10, name: 'Cow Grazing in Field' },
+  { src: farmPhoto11, name: 'Vegetable Garden' },
+  { src: farmPhoto12, name: 'Sheep Herd on Hillside' },
+  { src: farmPhoto13, name: 'Chicken Coop' },
+  { src: farmPhoto14, name: 'Freshly Plowed Soil' },
+  { src: farmPhoto15, name: 'Orchard in Bloom' },
+  { src: farmPhoto16, name: 'Rural Landscape' },
+  { src: farmPhoto17, name: 'Hay Bales in Field' },
+  { src: farmPhoto18, name: 'Pumpkin Patch' },
+  { src: farmPhoto19, name: 'Vineyard Rows' },
+  { src: farmPhoto20, name: 'Farm Equipment' },
+  { src: farmPhoto21, name: 'Rustic Farm Gate' },
+  { src: farmPhoto22, name: 'Windmill at Sunset' },
+  { src: farmPhoto23, name: 'Scenic Country Road' },
+  { src: farmPhoto24, name: 'Farm Fresh Produce' },
 ];
+
 
 const PhotoGallery = () => {
   return (
