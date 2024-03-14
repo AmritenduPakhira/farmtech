@@ -9,11 +9,28 @@ const Login = () => {
 //   };
 
 const handleLogin = (e) => {
-    e.preventDefault();
-    // Perform login logic here
-    // For now, let's simulate a successful login with a simple redirect
-    setRedirectToHome(true);
-  };
+  e.preventDefault();
+  const enteredUsername = document.getElementById('loginEmail').value;
+  const enteredPassword = document.getElementById('loginPassword').value;
+
+  // Define the list of valid credentials
+  const credentials = [
+      { username: 'amrit123', password: '123456789' },
+      { username: 'saatvik123', password: 'password123' }
+     
+  ];
+
+  // Check if any of the entered username and password pairs match
+  const isValidCredentials = credentials.some(cred => cred.username === enteredUsername && cred.password === enteredPassword);
+
+  if (isValidCredentials) {
+      setRedirectToHome(true);
+  } else {
+      alert('Incorrect username or password');
+  }
+};
+
+
 const handleSignUp = (e) => {
     e.preventDefault();
      setRedirectToHome(true);
