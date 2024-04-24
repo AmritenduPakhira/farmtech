@@ -15,7 +15,7 @@ const ProductList = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('http://localhost:5001/products');
+        const response = await axios.get('http://localhost:4001/products');
         setProducts(response.data);
         setFilteredProducts(response.data);
       } catch (error) {

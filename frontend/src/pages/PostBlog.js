@@ -24,7 +24,7 @@ const BlogPostForm = () => {
 
     try {
       // Send POST request to localhost:5000/api/posts
-      const response = await fetch('http://localhost:5000/api/posts', {
+      const response = await fetch('http://localhost:4000/api/posts', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

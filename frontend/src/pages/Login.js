@@ -4,23 +4,19 @@ const Login = () => {
     const [isLogin, setIsLogin] = useState(true);
     const [redirectToHome, setRedirectToHome] = useState(false);
 
-//   const toggleForm = () => {
-//     setIsLogin((prevIsLogin) => !prevIsLogin);
-//   };
+
 
 const handleLogin = (e) => {
   e.preventDefault();
   const enteredUsername = document.getElementById('loginEmail').value;
   const enteredPassword = document.getElementById('loginPassword').value;
 
-  // Define the list of valid credentials
   const credentials = [
       { username: 'amrit123', password: '123456789' },
       { username: 'saatvik123', password: 'password123' }
      
   ];
 
-  // Check if any of the entered username and password pairs match
   const isValidCredentials = credentials.some(cred => cred.username === enteredUsername && cred.password === enteredPassword);
 
   if (isValidCredentials) {

@@ -8,7 +8,7 @@ const ContactUs = require('./models/contact');
 const Productstore = require('./models/productstore')
 
 const app = express();
-const PORT = 5000;
+const PORT = 4000;
 
 mongoose.connect('mongodb://localhost:27017/post', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
