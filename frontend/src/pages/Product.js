@@ -1,9 +1,8 @@
-// ProductList.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Modal from 'react-modal';
-import CartModal from './CartModal'; // Adjust the path accordingly
-import './product.css'; // Import your CSS file for styling
+import {FiShoppingCart} from 'react-icons/fi'
+import CartModal from './CartModal'; 
+import toast, { Toaster } from 'react-hot-toast';
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -15,7 +14,7 @@ const ProductList = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('http://localhost:4001/products');
+        const response = await axios.get('http://localhost:4000/products');
         setProducts(response.data);
         setFilteredProducts(response.data);
       } catch (error) {
@@ -27,8 +26,18 @@ const ProductList = () => {
   }, []);
 
   const addToCart = (product) => {
-    setCart([...cart, { ...product, quantity: 1 }]);
+    const existingItemIndex = cart.findIndex((item) => item.id === product.id);
+  
+    if (existingItemIndex !== -1) {
+      const updatedCart = [...cart];
+      updatedCart[existingItemIndex].quantity += 1;
+      setCart(updatedCart);
+    } else {
+      setCart([...cart, { ...product, quantity: 1 }]);
+    }
+    toast.success(product.name + " added!")
   };
+  
 
   const removeFromCart = (productId) => {
     const updatedCart = cart.filter((item) => item.id !== productId);
@@ -51,32 +60,36 @@ const ProductList = () => {
   };
 
   return (
-    <div>
-      <h1>
+    <div className="container mx-auto px-4 py-8">
+      <div><Toaster/></div>
+      <header className='flex justify-between '>
+      <h1 className="text-3xl font-bold mb-4">
         Available Agricultural Products
-        <button onClick={openCartModal}>View Cart</button>
       </h1>
-      <div className="search-container">
+        <button className="ml-4 px-4 py-1 text-blue-600 hover:text-blue-500 rounded text-3xl" onClick={openCartModal}><FiShoppingCart/></button>
+      </header>
+      <div className="flex items-center mb-4">
         <input
           type="text"
           placeholder="Search Product..."
+          className="border border-gray-300 px-4 py-2 rounded-l"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <button onClick={handleSearch}>Search</button>
+        <button className="bg-blue-500 text-white px-4 py-2 rounded-r hover:bg-blue-600" onClick={handleSearch}>Search</button>
       </div>
-      <div className="product-container">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredProducts.map((product) => (
-          <div key={product.id} className="product-item">
+          <div key={product.id} className="border p-4 rounded-lg shadow-md">
             <img
               src={product.image}
               alt={product.name}
-              style={{ width: '100px', height: '100px' }}
+              className="w-full h-48 object-cover mb-4 rounded-lg"
             />
-            <h3>{product.name}</h3>
-            <p>Price: ${product.price}</p>
-            <p>{product.description}</p>
-            <button onClick={() => addToCart(product)}>Add to Cart</button>
+            <h3 className="text-lg font-bold mb-2">{product.name}</h3>
+            <p className="text-gray-600 mb-2">Price: ₹{product.price}</p>
+            <p className="text-gray-700 mb-4">{product.description}</p>
+            <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600" onClick={() => addToCart(product)}>Add to Cart</button>
           </div>
         ))}
       </div>

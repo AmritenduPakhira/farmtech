@@ -9,9 +9,7 @@ import PhotoGallery from './pages/PhotoGallery';
 import Login from './pages/Login';
 import ContactUs from './pages/ContactUs';
 import Product from './pages/Product';
-import Cart from './pages/Cart';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
@@ -25,9 +23,9 @@ function App() {
           <Route path='postblog' element={<PostBlog/>}></Route>
           <Route path='product' element={<Product/>}></Route>
           <Route path='contact' element={<ContactUs />}></Route>
-          <Route path='cart' element={<Cart />}></Route>
           <Route path='Photogallery' element={<PhotoGallery />}></Route>
           <Route path='/' element={<Login />}></Route>
+          <Route path='*' element={<Home />}></Route>
         </Routes>
         <Footer/>
     </div>
