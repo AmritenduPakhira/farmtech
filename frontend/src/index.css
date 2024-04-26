@@ -18,24 +18,13 @@ code {
 
 }
 
-.flex{
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-.link{
-  display: flex;
-  padding: 5px 10px;
-  text-decoration: none;
-  color: white;
-  background-color: greenyellow;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-}
+
+
+
 
 .link:hover{
   color: blueviolet;

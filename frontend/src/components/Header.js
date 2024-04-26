@@ -1,75 +1,60 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import logoImg from '../images/logo2.jpg';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min';
 
-export default function Header() {
-  const logoStyle = {
-    height: '40px',
-    width: 'auto',
-    marginRight: '10px',
-    transform: 'scale(1.2)', // Initial scale
-    transition: 'transform 0.3s ease-in-out', // Add transition for smooth scaling
-  };
-
-  const darkGreen = {
-    background: '#006400', // Dark green color code
-  };
-
+const Header = () => {
   return (
-    <div className="header">
-      <nav className="darkgreen navbar navbar-expand-lg navbar-dark fixed-top" style={darkGreen}>
-        <Link className="navbar-brand mx-auto" to="home">
-          <img src={logoImg} alt="Farmtech Fusion Logo" className="logo-img" style={logoStyle} />
-          Crop Life
+    <header className="bg-green-900">
+      <nav className="container mx-auto px-4 py-6 flex items-center justify-between">
+
+        <Link to="/" className="flex items-center text-white">
+          <img src={logoImg} alt="Farmtech Fusion Logo" className="h-10 w-auto mr-2" />
+          <span className="text-xl font-bold">Crop Life</span>
         </Link>
+        
+
+        <div className="flex items-center ">
+          <div className="text-lg flex-grow">
+            <NavLink to="/contact">Contact Us</NavLink>
+            <NavLink to="/photogallery">Photo Gallery</NavLink>
+
+            <NavLink to="/about">About Us</NavLink>
+            <NavLink to="/blogging">Farm Product Blog</NavLink>
+            <NavLink to="/product">Product Item</NavLink>
+          </div>
+        </div>
+        
+
         <button
-          className="navbar-toggler"
+          className="block lg:hidden focus:outline-none text-white"
           type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
+          data-toggle="collapse"
+          data-target="#navbarNav"
           aria-controls="navbarNav"
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span className="navbar-toggler-icon"></span>
+          <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M4 6h16a1 1 0 010 2H4a1 1 0 010-2zm16 5H4a1 1 0 010-2h16a1 1 0 110 2zm0 4H4a1 1 0 010-2h16a1 1 0 110 2z"
+            />
+          </svg>
         </button>
-        <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
-          <ul className="navbar-nav">
-            <li className="nav-item">
-              <Link className="nav-link" to="/contact">
-                Contact Us
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/Photogallery">
-                Photo Gallery
-              </Link>
-            </li>
-            {/* <li className="nav-item">
-              <Link className="nav-link" to="/">
-                Login Page
-              </Link>
-            </li> */}
-            <li className="nav-item">
-              <Link className="nav-link" to="/about">
-                About Us
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/blogging">
-                Farm Product Blog
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/product">
-                Product Item
-              </Link>
-            </li>
-          </ul>
-        </div>
       </nav>
-    </div>
+    </header>
   );
-}
+};
+
+// NavLink Component for consistent styling
+const NavLink = ({ to, children }) => (
+  <Link
+    to={to}
+    className="block lg:inline-block lg:mt-0 text-white hover:text-gray-300 mr-4"
+  >
+    {children}
+  </Link>
+);
+
+export default Header;

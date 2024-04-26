@@ -8,7 +8,7 @@ const BlogPosts = () => {
 
   useEffect(() => {
     // Refetch data from the API after liking a post
-    fetch('http://localhost:5000/api/posts')
+    fetch('http://localhost:4000/api/posts')
       .then(response => response.json())
       .then(data => setBlogPosts(data))
       .catch(error => console.error('Error fetching updated blog posts:', error));
@@ -17,7 +17,7 @@ const BlogPosts = () => {
   const handleLike = async (postId) => {
     try {
       // Send POST request to localhost:5000/api/posts/like
-      const response = await fetch(`http://localhost:5000/api/posts/${postId}/like`, {
+      const response = await fetch(`http://localhost:4000/api/posts/${postId}/like`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ const BlogPosts = () => {
   const handleDislike = async (postId) => {
     try {
       
-      const response = await fetch(`http://localhost:5000/api/posts/${postId}/dislike`, {
+      const response = await fetch(`http://localhost:4000/api/posts/${postId}/dislike`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -62,7 +62,7 @@ const BlogPosts = () => {
   const handleCommentSubmit = async (postId) => {
     try {
      
-      const response = await fetch(`http://localhost:5000/api/posts/${postId}/comments`, {
+      const response = await fetch(`http://localhost:4000/api/posts/${postId}/comments`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ const BlogPosts = () => {
   const handleCommentDelete = async (postId, commentId) => {
     try {
       
-      const response = await fetch(`http://localhost:5000/api/posts/${postId}/comments/${commentId}`, {
+      const response = await fetch(`http://localhost:4000/api/posts/${postId}/comments/${commentId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
