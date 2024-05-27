@@ -18,13 +18,17 @@ const razorpay = new Razorpay({
   key_secret: "JNIwWpMBAPyspzGBF2CokEUY",
 });
 
-mongoose.connect('mongodb+srv://sam:sam@cluster0.fgzbul2.mongodb.net/croplite')
-  .then(() => {
+async function connectToDB() {
+  try {
+    await mongoose.connect('mongodb+srv://sam:sam@cluster0.fgzbul2.mongodb.net/croplite');
     console.log("DB connected");
-  })
-  .catch((error) => {
+  } catch (error) {
     console.error("Error connecting to DB:", error);
-  });
+  }
+}
+
+connectToDB();
+
 
 
 app.use(cors());
