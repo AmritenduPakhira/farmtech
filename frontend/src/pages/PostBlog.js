@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const BlogPostForm = () => {
   const [blogData, setBlogData] = useState({
     title: '',
     content: '',
     author: '',
-    image: '', // Add image to the state
+    image: '',
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,18 +23,15 @@ const BlogPostForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Send POST request to your API endpoint
-      const response = await fetch('http://localhost:4000/api/posts', {
-        method: 'POST',
+      const response = await axios.post('http://localhost:4000/api/posts', blogData, {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(blogData),
       });
 
-      if (response.ok) {
+      if (response.status === 201) {
         console.log('Blog posted successfully');
-        window.location.href = '/blogging';
+        navigate('/blogging')
       } else {
         console.error('Failed to post blog:', response.statusText);
       }

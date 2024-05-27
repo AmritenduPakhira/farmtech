@@ -1,0 +1,355 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Documentation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+    .container {
+      width: 80%;
+      margin: auto;
+      overflow: hidden;
+    }
+    header {
+      background: #333;
+      color: #fff;
+      padding-top: 30px;
+      min-height: 70px;
+      border-bottom: #77A6B6 3px solid;
+    }
+    header a {
+      color: #fff;
+      text-decoration: none;
+      text-transform: uppercase;
+      font-size: 16px;
+    }
+    header ul {
+      padding: 0;
+      list-style: none;
+    }
+    header li {
+      display: inline;
+      padding: 0 20px 0 20px;
+    }
+    .showcase {
+      background: #35424a;
+      color: #fff;
+      height: 300px;
+      text-align: center;
+      padding-top: 100px;
+    }
+    .main {
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .endpoint {
+      background: #f4f4f4;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: #ccc 1px solid;
+    }
+    .endpoint h3 {
+      margin-top: 0;
+    }
+    .param {
+      margin: 5px 0;
+    }
+    .response {
+      background: #e4e4e4;
+      padding: 10px;
+      margin-top: 10px;
+      border: #ccc 1px solid;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div id="branding">
+        <h1>API Documentation</h1>
+      </div>
+    </div>
+  </header>
+  <div class="showcase">
+    <div class="container">
+      <h1>Welcome to the API Documentation</h1>
+    </div>
+  </div>
+  <div class="container main">
+    <h2>Endpoints</h2>
+    <div class="endpoint">
+      <h3>Get All Blog Posts</h3>
+      <p><strong>URL:</strong> /api/posts</p>
+      <p><strong>Method:</strong> GET</p>
+      <p><strong>Success Response:</strong></p>
+      <div class="response">
+        <pre>
+[
+  {
+    "_id": "123",
+    "title": "Post Title",
+    "content": "Post Content",
+    "author": "Author Name",
+    "image": "Image URL",
+    "likes": [],
+    "comments": []
+  }
+]
+        </pre>
+      </div>
+    </div>
+
+    <div class="endpoint">
+      <h3>Register a New User</h3>
+      <p><strong>URL:</strong> /api/register</p>
+      <p><strong>Method:</strong> POST</p>
+      <p><strong>Request Body:</strong></p>
+      <div class="param">
+        <pre>
+{
+  "username": "User",
+  "email": "user@example.com",
+  "password": "password"
+}
+        </pre>
+      </div>
+      <p><strong>Success Response:</strong></p>
+      <div class="response">
+        <pre>
+{
+  "_id": "123",
+  "username": "User",
+  "email": "user@example.com",
+  "password": "hashed_password",
+  "__v": 0
+}
+        </pre>
+      </div>
+      <p><strong>Error Response:</strong> Username or Email is already registered</p>
+    </div>
+
+    <div class="endpoint">
+      <h3>Login</h3>
+      <p><strong>URL:</strong> /api/login</p>
+      <p><strong>Method:</strong> POST</p>
+      <p><strong>Request Body:</strong></p>
+      <div class="param">
+        <pre>
+{
+  "email": "user@example.com",
+  "password": "password"
+}
+        </pre>
+      </div>
+      <p><strong>Success Response:</strong></p>
+      <div class="response">
+        <pre>
+{
+  "_id": "123",
+  "username": "User",
+  "email": "user@example.com",
+  "password": "hashed_password",
+  "__v": 0
+}
+        </pre>
+      </div>
+      <p><strong>Error Response:</strong> Invalid email or password</p>
+    </div>
+
+    <div class="endpoint">
+      <h3>Create Blog Post</h3>
+      <p><strong>URL:</strong> /api/posts</p>
+      <p><strong>Method:</strong> POST</p>
+      <p><strong>Request Body:</strong></p>
+      <div class="param">
+        <pre>
+{
+  "title": "Post Title",
+  "content": "Post Content",
+  "author": "Author Name",
+  "image": "Image URL"
+}
+        </pre>
+      </div>
+      <p><strong>Success Response:</strong></p>
+      <div class="response">
+        <pre>
+{
+  "_id": "123",
+  "title": "Post Title",
+  "content": "Post Content",
+  "author": "Author Name",
+  "image": "Image URL",
+  "likes": [],
+  "comments": [],
+  "__v": 0
+}
+        </pre>
+      </div>
+      <p><strong>Error Response:</strong> Bad Request</p>
+    </div>
+
+    <div class="endpoint">
+      <h3>Like a Blog Post</h3>
+      <p><strong>URL:</strong> /api/posts/:postId/like</p>
+      <p><strong>Method:</strong> POST</p>
+      <p><strong>URL Params:</strong> <code>postId=[String]</code></p>
+      <p><strong>Success Response:</strong></p>
+      <div class="response">
+        <pre>
+{
+  "_id": "123",
+  "title": "Post Title",
+  "content": "Post Content",
+  "author": "Author Name",
+  "image": "Image URL",
+  "likes": [{"user": "SomeUser"}],
+  "comments": [],
+  "__v": 0
+}
+        </pre>
+      </div>
+      <p><strong>Error Response:</strong> Blog post not found or Internal server error</p>
+    </div>
+
+    <div class="endpoint">
+      <h3>Dislike a Blog Post</h3>
+      <p><strong>URL:</strong> /api/posts/:postId/dislike</p>
+      <p><strong>Method:</strong> POST</p>
+      <p><strong>URL Params:</strong> <code>postId=[String]</code></p>
+      <p><strong>Success Response:</strong></p>
+      <div class="response">
+        <pre>
+{
+  "_id": "123",
+  "title": "Post Title",
+  "content": "Post Content",
+  "author": "Author Name",
+  "image": "Image URL",
+  "likes": [],
+  "comments": [],
+  "__v": 0
+}
+        </pre>
+      </div>
+      <p><strong>Error Response:</strong> Blog post not found or Internal server error</p>
+    </div>
+
+    <div class="endpoint">
+      <h3>Add Comment to Blog Post</h3>
+      <p><strong>URL:</strong> /api/posts/:postId/comments</p>
+      <p><strong>Method:</strong> POST</p>
+      <p><strong>URL Params:</strong> <code>postId=[String]</code></p>
+      <p><strong>Request Body:</strong></p>
+      <div class="param">
+        <pre>
+{
+  "content": "Comment content",
+  "author": "Comment Author"
+}
+        </pre>
+      </div>
+      <p><strong>Success Response:</strong></p>
+      <div class="response">
+        <pre>
+{
+  "_id": "123",
+  "title": "Post Title",
+  "content": "Post Content",
+  "author": "Author Name",
+  "image": "Image URL",
+  "likes": [],
+  "comments": [
+    {
+      "_id": "456",
+      "content": "Comment content",
+      "author": "Comment Author",
+      "date": "2024-05-27T14:48:00.000Z"
+    }
+  ],
+  "__v": 0
+}
+        </pre>
+      </div>
+      <p><strong>Error Response:</strong> Blog post not found or Internal server error</p>
+    </div>
+
+    <div class="endpoint">
+      <h3>Delete Comment from Blog Post</h3>
+      <p><strong>URL:</strong> /api/posts/:postId/comments/:commentId</p>
+      <p><strong>Method:</strong> DELETE</p>
+      <p><strong>URL Params:</strong> <code>postId=[String]</code>, <code>commentId=[String]</code></p>
+      <p><strong>Success Response:</strong></p>
+      <div class="response">
+        <pre>
+{
+  "_id": "123",
+  "title": "Post Title",
+  "content": "Post Content",
+  "author": "Author Name",
+  "image": "Image URL",
+  "likes": [],
+  "comments": [],
+  "__v": 0
+}
+        </pre>
+      </div>
+      <p><strong>Error Response:</strong> Blog post not found, Comment not found, or Internal server error</p>
+    </div>
+
+    <div class="endpoint">
+      <h3>Submit Contact Form</h3>
+      <p><strong>URL:</strong> /submit</p>
+      <p><strong>Method:</strong> POST</p>
+      <p><strong>Request Body:</strong></p>
+      <div class="param">
+        <pre>
+{
+  "name": "Your Name",
+  "email": "your.email@example.com",
+  "message": "Your message"
+}
+        </pre>
+      </div>
+      <p><strong>Success Response:</strong></p>
+      <div class="response">
+        <pre>
+{
+  "message": "Data saved successfully"
+}
+        </pre>
+      </div>
+      <p><strong>Error Response:</strong> Internal Server Error</p>
+    </div>
+
+    <div class="endpoint">
+      <h3>Get Products</h3>
+      <p><strong>URL:</strong> /products</p>
+      <p><strong>Method:</strong> GET</p>
+      <p><strong>Success Response:</strong></p>
+      <div class="response">
+        <pre>
+[
+  {
+    "_id": "123",
+    "name": "Product Name",
+    "price": 100,
+    "description": "Product Description",
+    "image": "Image URL",
+    "__v": 0
+  }
+]
+        </pre>
+      </div>
+      <p><strong>Error Response:</strong> Internal Server Error</p>
+    </div>
+  </div>
+</body>
+</html>
