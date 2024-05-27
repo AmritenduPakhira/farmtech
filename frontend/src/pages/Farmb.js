@@ -1,34 +1,56 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Button, Form, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import CommentModal from './CommentModal';
+import { FiHeart, FiCommand, FiTrash } from 'react-icons/fi';
+import {FaComment} from 'react-icons/fa'
+import { gsap } from 'gsap';
+import { useGSAP } from '@gsap/react';
+
+gsap.registerPlugin(useGSAP);
+
 
 const BlogPosts = () => {
   const [blogPosts, setBlogPosts] = useState([]);
   const [commentInput, setCommentInput] = useState('');
+  const [isCommentModalOpen, setIsCommentModalOpen] = useState(false); // State for modal visibility
+  const [currentPostId, setCurrentPostId] = useState(null);
 
   useEffect(() => {
-    // Refetch data from the API after liking a post
-    fetch('http://localhost:4000/api/posts')
-      .then(response => response.json())
-      .then(data => setBlogPosts(data))
-      .catch(error => console.error('Error fetching updated blog posts:', error));
-  }, [blogPosts]); // Run the effect when the blogPosts state changes
+    fetchBlogPosts();
+  }, []);
+
+  useGSAP(() => {
+    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+  
+    tl.from("section > div > div", { opacity: 0, y: 50, stagger: 0.2, duration: 1 });
+  
+    fetchBlogPosts();
+  }, []);
+
+  
+  const fetchBlogPosts = async () => {
+    try {
+      const response = await fetch('http://localhost:4000/api/posts');
+      const data = await response.json();
+      setBlogPosts(data);
+    } catch (error) {
+      console.error('Error fetching updated blog posts:', error);
+    }
+  };
 
   const handleLike = async (postId) => {
     try {
-      // Send POST request to localhost:5000/api/posts/like
       const response = await fetch(`http://localhost:4000/api/posts/${postId}/like`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        // You can send additional data in the body if needed
         body: JSON.stringify({ user: 'SomeUser' }),
       });
 
       if (response.ok) {
         console.log(`Liked the blog post ${postId} successfully`);
-        // Optionally, you can update the UI or perform other actions upon successful liking
+        fetchBlogPosts();
       } else {
         console.error(`Failed to like the blog post ${postId}:`, response.statusText);
       }
@@ -39,19 +61,18 @@ const BlogPosts = () => {
 
   const handleDislike = async (postId) => {
     try {
-      
       const response = await fetch(`http://localhost:4000/api/posts/${postId}/dislike`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-       
         body: JSON.stringify({ user: 'SomeUser' }),
       });
 
       if (response.ok) {
         console.log(`Disliked the blog post ${postId} successfully`);
-           } else {
+        fetchBlogPosts();
+      } else {
         console.error(`Failed to dislike the blog post ${postId}:`, response.statusText);
       }
     } catch (error) {
@@ -59,31 +80,30 @@ const BlogPosts = () => {
     }
   };
 
-  const handleCommentSubmit = async (postId) => {
+  const handleCommentSubmit = async () => {
     try {
-     
-      const response = await fetch(`http://localhost:4000/api/posts/${postId}/comments`, {
+      const response = await fetch(`http://localhost:4000/api/posts/${currentPostId}/comments`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ content: commentInput, author: 'SomeUser' }), 
+        body: JSON.stringify({ content: commentInput, author: 'SomeUser' }),
       });
 
       if (response.ok) {
-        console.log(`Comment added to the blog post ${postId} successfully`);
-        setCommentInput(''); 
+        console.log(`Comment added to the blog post ${currentPostId} successfully`);
+        fetchBlogPosts();
+        setCommentInput('');
       } else {
-        console.error(`Failed to add comment to the blog post ${postId}:`, response.statusText);
+        console.error(`Failed to add comment to the blog post ${currentPostId}:`, response.statusText);
       }
     } catch (error) {
-      console.error(`Error adding comment to the blog post ${postId}:`, error);
+      console.error(`Error adding comment to the blog post ${currentPostId}:`, error);
     }
   };
 
   const handleCommentDelete = async (postId, commentId) => {
     try {
-      
       const response = await fetch(`http://localhost:4000/api/posts/${postId}/comments/${commentId}`, {
         method: 'DELETE',
         headers: {
@@ -93,7 +113,7 @@ const BlogPosts = () => {
 
       if (response.ok) {
         console.log(`Comment deleted successfully`);
-       
+        fetchBlogPosts();
       } else {
         console.error(`Failed to delete comment:`, response.statusText);
       }
@@ -102,64 +122,92 @@ const BlogPosts = () => {
     }
   };
 
+  const openCommentModal = (postId) => {
+    setCurrentPostId(postId);
+    setIsCommentModalOpen(true);
+  };
+
+  const closeCommentModal = () => {
+    setIsCommentModalOpen(false);
+  };
+
   return (
-    <Container className="mt-5">
-      <div className='d-flex justify-content-between align-items-center mb-4'>
-        <h2 style={{ color: '#43e97b' }}>Blog Posts</h2>
-        <Link className='btn btn-success' to="/postblog">Create new Blog</Link>
-      </div>
+    <section className="bg-gray-100 min-h-screen py-12">
+      <div className="container mx-auto px-4">
+        <div className="flex justify-between items-center mb-8">
+          <h2 className="text-3xl font-bold text-green-500">Latest Blog Posts</h2>
+          <Link to="/postblog" className="bg-green-500 text-white px-6 py-3 rounded hover:bg-green-600 transition duration-300">Create New Blog</Link>
+        </div>
 
-      <div className="d-flex flex-wrap justify-content-between">
-        {blogPosts.map(post => (
-          <Card key={post._id} className="mb-3" style={{ width: '30%', background: 'linear-gradient(to bottom, #43e97b, #38f9d7)' }}>
-            <Card.Body>
-              <Card.Title>{post.title}</Card.Title>
-              <Card.Text>{post.content}</Card.Text>
-              <Card.Text>Likes: {post.likes.length}</Card.Text>
-              <Card.Subtitle className="mb-2 text-muted">Author: {post.author}</Card.Subtitle>
-              <Card.Subtitle className="mb-2 text-muted">Date: {new Date(post.date).toLocaleString()}</Card.Subtitle>
-              <Button variant="primary" onClick={() => handleLike(post._id)} style={{ marginRight: '170px', marginBottom: '10px' }}>
-                Like
-              </Button>
-              <Button variant="primary" onClick={() => handleDislike(post._id)} className="ml-3" style={{ marginBottom: '10px' }}>
-                Dislike
-              </Button>
-
-              {/* Comment Form */}
-              <Form onSubmit={(e) => { e.preventDefault(); handleCommentSubmit(post._id); }}>
-                <Form.Group controlId={`commentInput-${post._id}`}>
-                  <Form.Control
-                    type="text"
-                    placeholder="Write a comment"
-                    value={commentInput}
-                    onChange={(e) => setCommentInput(e.target.value)}
-                  />
-                </Form.Group>
-                <Button variant="primary" type="submit" style={{ marginTop: '10px' }}>
-                  Add Comment
-                </Button>
-              </Form>
-
-              {/* Display Comments */}
-              {post.comments && post.comments.length > 0 && (
-                <div className="mt-3">
-                  <h5>Comments:</h5>
-                  {post.comments.map(comment => (
-                    <div key={comment._id} className="mb-2">
-                      <p>{comment.content}</p>
-                      <p className="text-muted">Author: {comment.author}, Date: {new Date(comment.date).toLocaleString()}</p>
-                      <Button variant="danger" onClick={() => handleCommentDelete(post._id, comment._id)}>
-                        Delete Comment
-                      </Button>
-                    </div>
-                  ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {blogPosts.map(post => (
+            <div key={post._id} className="bg-white rounded-lg shadow-md overflow-hidden">
+              <img src={post.image} alt="Blog Post" className="w-full h-48 object-cover" />
+              <div className="p-6">
+                <h3 className="text-xl font-semibold text-gray-800 mb-2">{post.title}</h3>
+                <p className="text-gray-600 mb-4">{new Date(post.date).toLocaleDateString()}</p>
+                <p className="text-gray-700 mb-4">{post.content}</p>
+                <div className="flex items-center">
+                  <button className="text-gray-600 mr-4 flex items-center" onClick={() => handleLike(post._id)}>
+                    <FiHeart className='text-blue-600'/>
+                    {post.likes.length}
+                  </button>
+                  <button className="text-gray-600 mr-4" onClick={() => handleDislike(post._id)}>
+                    <FiHeart className='text-red-600'/>
+                  </button>
+                  <button className="text-gray-600 mr-4" onClick={() => openCommentModal(post._id)}>
+                    <FaComment/>
+                  </button>
                 </div>
-              )}
-            </Card.Body>
-          </Card>
-        ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <CommentModal isOpen={isCommentModalOpen} onClose={closeCommentModal}>
+  <div>
+    {currentPostId && blogPosts.map(post => {
+      if (post._id === currentPostId) {
+        return (
+          <div key={post._id}>
+            {post.comments && post.comments.length > 0 && (
+              <div className="mt-3 max-h-64 overflow-y-auto">
+                <h5 className="text-lg font-semibold mb-2">Comments:</h5>
+                {post.comments.map(comment => (
+                  <div key={comment._id} className="bg-gray-100 rounded-lg p-4 mb-2">
+                    <div className='flex items-center justify-between'>
+                    <p className="text-gray-800">{comment.content}</p>
+                    <button className="text-red-600 hover:text-red-700" onClick={() => handleCommentDelete(post._id, comment._id)}>
+                      <FiTrash className="inline-block mr-1" />
+                    </button>
+                    </div>
+                    <p className="text-sm text-gray-600">Author: {comment.author}, Date: {new Date(comment.date).toLocaleString()}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+            <h2 className="text-xl font-semibold mt-4 mb-2">Add a Comment</h2>
+            <form onSubmit={(e) => { e.preventDefault(); handleCommentSubmit(); }}>
+              <textarea
+                placeholder="Write a comment"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+                value={commentInput}
+                onChange={(e) => setCommentInput(e.target.value)}
+              />
+              <button type="submit" className="mt-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300">Submit</button>
+            </form>
+          </div>
+        );
+      }
+      return null;
+    })}
+  </div>
+</CommentModal>
+
+
+
       </div>
-    </Container>
+    </section>
   );
 };
 

@@ -1,15 +1,16 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../firebase';
+import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebase';
 import toast, { Toaster } from 'react-hot-toast';
 import { gsap } from 'gsap';
 import { useGSAP } from '@gsap/react';
 
 gsap.registerPlugin(useGSAP);
 
-const Login = ({ onLogin }) => {
+const Register = ({ onLogin }) => {
   const navigate = useNavigate();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -17,7 +18,8 @@ const Login = ({ onLogin }) => {
   const emailRef = useRef();
   const passwordRef = useRef();
 
-  useGSAP(() => {
+  useGSAP(
+    () => {
     let ctx = gsap.context(() => {
       gsap.from(containerRef.current, { opacity: 0, y: 20, duration: 1 });
       gsap.from(emailRef.current, { opacity: 0, x: -50, duration: 0.5, delay: 0.5 });
@@ -27,19 +29,25 @@ const Login = ({ onLogin }) => {
     return () => ctx.revert();
   }, []);
 
-  const handleLogin = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
+      await createUserWithEmailAndPassword(auth, email, password);
+      const user = await auth.user;
+
       onLogin(user);
-      navigate("/home");
-      toast.success('User Logged In Successfully');
+      toast.success('User Registered');
+      navigate("/login");
     } catch (error) {
+      console.log(error);
       const errorCode = error.code;
       const errorMessage = error.message;
       toast.error(`${errorCode}: ${errorMessage}`);
     }
+
+    setEmail('');
+    setPassword('');
   };
 
   return (
@@ -47,9 +55,9 @@ const Login = ({ onLogin }) => {
       <Toaster />
       <section className="max-w-md w-full space-y-8" ref={containerRef}>
         <div className="text-center">
-          <h1 className="text-3xl font-extrabold text-green-800">Login</h1>
+          <h1 className="text-3xl font-extrabold text-green-800">Register</h1>
         </div>
-        <form className="mt-8 space-y-6" onSubmit={handleLogin}>
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <input type="hidden" name="remember" value="true" />
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
@@ -86,12 +94,12 @@ const Login = ({ onLogin }) => {
               type="submit"
               className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
             >
-              Login
+              Sign up
             </button>
             <p className="text-center mt-2 text-sm">
-              Don't have an account?{' '}
-              <NavLink to="/signup" className="font-medium text-green-600 hover:text-green-500">
-                Sign up
+              Already have an account?{' '}
+              <NavLink to="/login" className="font-medium text-green-600 hover:text-green-500">
+                Sign in
               </NavLink>
             </p>
           </div>
@@ -101,4 +109,4 @@ const Login = ({ onLogin }) => {
   );
 };
 
-export default Login;
+export default Register;

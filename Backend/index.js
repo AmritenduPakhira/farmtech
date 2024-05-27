@@ -6,11 +6,19 @@ const routes = require('./routes');
 const Blog = require('./models/blogpost');
 const ContactUs = require('./models/contact');
 const Productstore = require('./models/productstore')
+const User = require('./models/user')
+const Razorpay = require("razorpay");
+
 
 const app = express();
 const PORT = 4000;
 
-mongoose.connect('mongodb://localhost:27017/post', { useNewUrlParser: true, useUnifiedTopology: true })
+const razorpay = new Razorpay({
+  key_id: "rzp_test_UPsGxPIGbJpyfG",
+  key_secret: "JNIwWpMBAPyspzGBF2CokEUY",
+});
+
+mongoose.connect('mongodb://localhost:27017/croplite', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log("DB connected");
   })
@@ -20,7 +28,8 @@ mongoose.connect('mongodb://localhost:27017/post', { useNewUrlParser: true, useU
 
 
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded({extended: true}))
 
 app.get('/api/posts', async (req, res) => {
   try {
@@ -32,10 +41,74 @@ app.get('/api/posts', async (req, res) => {
 });
 
 
+app.post('/api/register', async (req, res) => {
+  const { username, email, password } = req.body;
+  try{
+    const user = new User({ username, email, password });
+    await user.save();
+    res.status(201).json(user);
+  }
+  catch (error) {
+    res.status(409).send('Username or Email is already registered');
+  }
+});
+
+app.post('/api/login', async (req, res) => {
+  const { email, password } = req.body;
+  console.log(req.body);
+  try {
+    const user = await User.findOne({email: email});
+    console.log(user);
+
+    if (!user) {
+
+      return res.status(401).send('Invalid email');
+    }
+
+    if(password != user.password) {
+
+      return res.status(401).send('Invalid password');
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
+
+app.get("/api/getkey", (req, res) =>
+  res.status(200).json({ key: "rzp_test_UPsGxPIGbJpyfG" })
+);
+
+app.post("/api/checkout", async (req, res) => {
+
+  const options = {
+    amount: Number(req.body.amount * 100),
+    currency: "INR",
+  };
+
+  const order = await razorpay.orders.create(options);
+
+  res.status(200).json({
+    success: true,
+    order,
+  });
+
+});
+
+
+app.post("/api/paymentverification",(req,res)=>{
+  const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
+    req.body;
+
+  res.redirect(
+    `http://localhost:3000/paymentsuccess?reference=${razorpay_payment_id}`
+  );
+})
 
 app.post('/api/posts', async (req, res) => {
-  const { title, content, author } = req.body;
-  const newPost = new Blog({ title, content, author });
+  const { title, content, author,image } = req.body;
+  const newPost = new Blog({ title, content, author,image });
   try {
     const savedPost = await newPost.save();
     console.log(savedPost);
@@ -177,6 +250,7 @@ app.post('/submit', async (req, res) => {
 app.get('/products', async (req, res) => {
   try {
     const products = await Productstore.find();
+    console.log(products);
     res.json(products);
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
