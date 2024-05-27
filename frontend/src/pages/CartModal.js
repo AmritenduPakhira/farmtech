@@ -19,13 +19,13 @@ const CartModal = ({ isOpen, onRequestClose, cart, removeFromCart,user }) => {
   const handleCheckout = async (amount) => {
 
     const { data: key } = await axios.get(
-      "http://localhost:4000/api/getkey"
+      "https://farmtech-vert.vercel.app/api/getkey"
     );
 
 
     const {
       data: { order },
-    } = await axios.post("http://localhost:4000/api/checkout", {
+    } = await axios.post("https://farmtech-vert.vercel.app/api/checkout", {
       amount,
     });
 
@@ -37,7 +37,7 @@ const CartModal = ({ isOpen, onRequestClose, cart, removeFromCart,user }) => {
       description: "see you again",
       image: "https://cdn.vectorstock.com/i/1000x1000/60/12/corn-logo-vector-44556012.webp",
       order_id: order.id,
-      callback_url: "http://localhost:4000/api/paymentverification",
+      callback_url: "https://farmtech-vert.vercel.app/api/paymentverification",
       prefill: {
         name: user.email,
         email: user.email,

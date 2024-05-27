@@ -24,7 +24,7 @@ const ContactUs = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:4000/submit', {
+      const response = await fetch('https://farmtech-vert.vercel.app/submit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
