@@ -18,7 +18,7 @@ const razorpay = new Razorpay({
   key_secret: "JNIwWpMBAPyspzGBF2CokEUY",
 });
 
-mongoose.connect('mongodb://localhost:27017/croplite', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb+srv://sam:sam@cluster0.fgzbul2.mongodb.net/croplite', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log("DB connected");
   })
