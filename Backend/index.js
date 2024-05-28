@@ -112,7 +112,7 @@ app.post("/api/paymentverification",(req,res)=>{
     req.body;
 
   res.redirect(
-    `http://localhost:3000/paymentsuccess?reference=${razorpay_payment_id}`
+    `http://croplite.vercel.app/paymentsuccess?reference=${razorpay_payment_id}`
   );
 })
 
