@@ -23,7 +23,7 @@ const BlogPostForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('https://farmtech-vert.vercel.app/api/posts', blogData, {
+      const response = await axios.post('https://farmtechbackend-4je9drnvw-amritendupakhiras-projects.vercel.app/api/posts', blogData, {
         headers: {
           'Content-Type': 'application/json',
         },

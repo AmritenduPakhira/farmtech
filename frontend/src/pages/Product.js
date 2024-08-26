@@ -18,7 +18,7 @@ const ProductList = ({user}) => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('https://farmtech-vert.vercel.app/products');
+        const response = await axios.get('https://farmtechbackend-4je9drnvw-amritendupakhiras-projects.vercel.app/products');
         setProducts(response.data);
         setFilteredProducts(response.data);
       } catch (error) {
