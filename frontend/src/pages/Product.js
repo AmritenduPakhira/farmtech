@@ -3,8 +3,12 @@ import axios from 'axios';
 import {FiShoppingCart} from 'react-icons/fi'
 import CartModal from './CartModal'; 
 import toast, { Toaster } from 'react-hot-toast';
+import { gsap } from 'gsap';
+import { useGSAP } from '@gsap/react';
 
-const ProductList = () => {
+gsap.registerPlugin(useGSAP);
+
+const ProductList = ({user}) => {
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -14,7 +18,7 @@ const ProductList = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/products');
+        const response = await axios.get('https://farmtech-vert.vercel.app/products');
         setProducts(response.data);
         setFilteredProducts(response.data);
       } catch (error) {
@@ -23,6 +27,16 @@ const ProductList = () => {
     };
 
     fetchProducts();
+  }, []);
+
+  useGSAP(()=>{
+    gsap.from(".product-card", {
+      opacity: 0,
+      y: 50,
+      duration: 1,
+      stagger: 0.2,
+      ease: "power3.out",
+    });
   }, []);
 
   const addToCart = (product) => {
@@ -66,7 +80,7 @@ const ProductList = () => {
       <h1 className="text-3xl font-bold mb-4">
         Available Agricultural Products
       </h1>
-        <button className="ml-4 px-4 py-1 text-blue-600 hover:text-blue-500 rounded text-3xl" onClick={openCartModal}><FiShoppingCart/></button>
+        <button className="ml-4 px-4 py-1 text-green-600 hover:text-green-500 rounded text-3xl" onClick={openCartModal}><FiShoppingCart/></button>
       </header>
       <div className="flex items-center mb-4">
         <input
@@ -76,9 +90,9 @@ const ProductList = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <button className="bg-blue-500 text-white px-4 py-2 rounded-r hover:bg-blue-600" onClick={handleSearch}>Search</button>
+        <button className="bg-green-500 text-white px-4 py-2 rounded-r hover:bg-green-600" onClick={handleSearch}>Search</button>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 product-card">
         {filteredProducts.map((product) => (
           <div key={product.id} className="border p-4 rounded-lg shadow-md">
             <img
@@ -97,6 +111,7 @@ const ProductList = () => {
         isOpen={isCartModalOpen}
         onRequestClose={closeCartModal}
         cart={cart}
+        user={user}
         removeFromCart={removeFromCart}
       />
     </div>

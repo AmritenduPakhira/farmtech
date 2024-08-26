@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import logoImg from '../images/logo2.jpg';
 
-const Header = () => {
+const Header = ({onLogout,loggedIn}) => {
   return (
     <header className="bg-green-900">
       <nav className="container mx-auto px-4 py-6 flex items-center justify-between">
@@ -21,6 +21,7 @@ const Header = () => {
             <NavLink to="/about">About Us</NavLink>
             <NavLink to="/blogging">Farm Product Blog</NavLink>
             <NavLink to="/product">Product Item</NavLink>
+            {loggedIn && <button onClick={onLogout} className='text-white'>Logout</button>}
           </div>
         </div>
         

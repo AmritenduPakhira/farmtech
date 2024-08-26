@@ -31,6 +31,10 @@ const blogSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  image:{
+    type: String,
+    required: true
+  },
   author: {
     type: String,
     required: true

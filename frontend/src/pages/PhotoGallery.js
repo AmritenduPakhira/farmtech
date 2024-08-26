@@ -1,4 +1,9 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import {useGSAP} from "@gsap/react"
+
+
+
 import farmPhoto1 from "../images/farmPhoto1.jpg";
 import farmPhoto2 from "../images/farmPhoto2.jpg";
 import farmPhoto3 from "../images/farmPhoto3.jpg";
@@ -23,6 +28,8 @@ import farmPhoto21 from "../images/farmPhoto21.jpg";
 import farmPhoto22 from "../images/farmPhoto22.jpg";
 import farmPhoto23 from "../images/farmPhoto23.jpg";
 import farmPhoto24 from "../images/farmPhoto24.jpg";
+
+gsap.registerPlugin(useGSAP);
 
 const farmPhotos = [
   { src: farmPhoto1, name: "Farmer with Crops" },
@@ -52,17 +59,38 @@ const farmPhotos = [
 ];
 
 const PhotoGallery = () => {
+  const photosRef = useRef([]);
+
+  useGSAP(() => {
+    const photos = photosRef.current;
+    
+    if (!photos) return;
+
+    
+    gsap.from(photos, {
+      opacity: 0,
+      y: 50,
+      stagger: 0.2,
+      duration: 1,
+      ease: "power2.out",
+    });
+  }, []);
+
   return (
-    <div className="container mx-auto">
+    <div className="container py-10 mx-auto">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         {farmPhotos.map((photo, index) => (
-          <div key={index} className="max-w-xs h-full">
+          <div
+            key={index}
+            className="max-w-xs h-full box"
+            ref={(el) => (photosRef.current[index] = el)}
+          >
             <div className="bg-gray-200 p-4 rounded-lg shadow-lg h-full">
-                <img
-                  src={photo.src}
-                  alt={`Farm Photos ${index + 1}`}
-                  className="object-cover w-full h-full rounded-lg"
-                />
+              <img
+                src={photo.src}
+                alt={`Farm Photos ${index + 1}`}
+                className="object-cover w-full h-full rounded-lg"
+              />
               <div className="mt-2 text-center font-semibold">{photo.name}</div>
             </div>
           </div>
@@ -70,7 +98,7 @@ const PhotoGallery = () => {
       </div>
     </div>
   );
-  
 };
 
 export default PhotoGallery;
+
