@@ -29,9 +29,11 @@ async function connectToDB() {
 
 connectToDB();
 
+let corsOptions = {
+  origin : ['https://farmtech-six.vercel.app/'],
+}
 
-
-app.use(cors());
+app.use(cors( corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}))
 
@@ -112,7 +114,7 @@ app.post("/api/paymentverification",(req,res)=>{
     req.body;
 
   res.redirect(
-    `http://croplite.vercel.app/paymentsuccess?reference=${razorpay_payment_id}`
+    `https://farmtech-six.vercel.app/paymentsuccess?reference=${razorpay_payment_id}`
   );
 })
 
