@@ -30,7 +30,7 @@ const BlogPosts = () => {
   
   const fetchBlogPosts = async () => {
     try {
-      const response = await fetch('https://farmtechbackend-4je9drnvw-amritendupakhiras-projects.vercel.app/api/posts');
+      const response = await fetch('https://farmtech-nine.vercel.app/api/posts');
       const data = await response.json();
       setBlogPosts(data);
     } catch (error) {
@@ -40,7 +40,7 @@ const BlogPosts = () => {
 
   const handleLike = async (postId) => {
     try {
-      const response = await fetch(`https://farmtechbackend-4je9drnvw-amritendupakhiras-projects.vercel.app/api/posts/${postId}/like`, {
+      const response = await fetch(`https://farmtech-nine.vercel.app/api/posts/${postId}/like`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ const BlogPosts = () => {
 
   const handleDislike = async (postId) => {
     try {
-      const response = await fetch(`https://farmtechbackend-4je9drnvw-amritendupakhiras-projects.vercel.app/api/posts/${postId}/dislike`, {
+      const response = await fetch(`https://farmtech-nine.vercel.app/api/posts/${postId}/dislike`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -82,7 +82,7 @@ const BlogPosts = () => {
 
   const handleCommentSubmit = async () => {
     try {
-      const response = await fetch(`https://farmtechbackend-4je9drnvw-amritendupakhiras-projects.vercel.app/api/posts/${currentPostId}/comments`, {
+      const response = await fetch(`https://farmtech-nine.vercel.app/api/posts/${currentPostId}/comments`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -104,7 +104,7 @@ const BlogPosts = () => {
 
   const handleCommentDelete = async (postId, commentId) => {
     try {
-      const response = await fetch(`https://farmtechbackend-4je9drnvw-amritendupakhiras-projects.vercel.app/api/posts/${postId}/comments/${commentId}`, {
+      const response = await fetch(`https://farmtech-nine.vercel.app/api/posts/${postId}/comments/${commentId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

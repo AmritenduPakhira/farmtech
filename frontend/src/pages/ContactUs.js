@@ -24,7 +24,7 @@ const ContactUs = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('https://farmtechbackend-4je9drnvw-amritendupakhiras-projects.vercel.app/submit', {
+      const response = await fetch('https://farmtech-nine.vercel.app/submit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
